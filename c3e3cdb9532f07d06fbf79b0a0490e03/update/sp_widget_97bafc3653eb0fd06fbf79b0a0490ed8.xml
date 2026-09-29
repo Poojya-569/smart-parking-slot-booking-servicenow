@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller = function($scope) {
+
+    var c = this;
+
+    c.form = {};
+    c.filteredSlots = c.data.slots || [];
+    c.submitting = false;
+
+
+    c.locationChanged = function() {
+
+        c.form.parking_slot = '';
+
+        if (!c.form.parking_location) {
+            c.filteredSlots = c.data.slots;
+            return;
+        }
+
+        c.filteredSlots =
+            c.data.slots.filter(function(slot) {
+
+                return slot.location ==
+                    c.form.parking_location;
+            });
+    };
+
+
+    c.bookParking = function() {
+
+        c.successMessage = '';
+        c.errorMessage = '';
+
+        if (!c.form.parking_location ||
+            !c.form.parking_slot ||
+            !c.form.start_time ||
+            !c.form.end_time) {
+
+            c.errorMessage =
+                'Please fill all required fields.';
+
+            return;
+        }
+
+        c.submitting = true;
+
+        c.server.get({
+
+            action: 'create_booking',
+
+            parking_location:
+                c.form.parking_location,
+
+            parking_slot:
+                c.form.parking_slot,
+
+            vehicle:
+                c.form.vehicle,
+
+            start_time:
+                c.formatDate(c.form.start_time),
+
+            end_time:
+                c.formatDate(c.form.end_time)
+
+        }).then(function(response) {
+
+            c.submitting = false;
+
+            if (response.data.bookingCreated) {
+
+                c.successMessage =
+                    'Parking booked successfully. Booking Number: ' +
+                    response.data.bookingNumber;
+
+                c.form = {};
+
+            } else {
+
+                c.errorMessage =
+                    response.data.error ||
+                    'Unable to create booking.';
+            }
+
+        });
+    };
+
+
+    c.formatDate = function(date) {
+
+        if (!date)
+            return '';
+
+        var d = new Date(date);
+
+        function pad(value) {
+            return value < 10 ? '0' + value : value;
+        }
+
+        return d.getFullYear() + '-' +
+            pad(d.getMonth() + 1) + '-' +
+            pad(d.getDate()) + ' ' +
+            pad(d.getHours()) + ':' +
+            pad(d.getMinutes()) + ':00';
+    };
+
+};]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.parking-booking-page {
+  padding: 30px;
+}
+
+.booking-card {
+  background: #ffffff;
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+}
+
+.booking-card h2 {
+  margin-top: 0;
+  font-weight: 700;
+}
+
+.booking-card .form-group {
+  margin-top: 20px;
+}
+
+.booking-card .btn {
+  margin-top: 20px;
+  margin-right: 8px;
+}
+
+.booking-card .alert {
+  margin-top: 20px;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>smart_parking_booking_widget</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
+        <name>Smart Parking Booking Widget</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+
+    data.locations = [];
+    data.slots = [];
+    data.vehicles = [];
+
+    data.bookingCreated = false;
+    data.bookingNumber = '';
+    data.error = '';
+
+
+    // =====================================================
+    // 1. LOAD PARKING LOCATIONS
+    // =====================================================
+
+    var locationGR = new GlideRecord(
+        'x_1958892_smart_0_parking_location'
+    );
+
+    locationGR.query();
+
+    while (locationGR.next()) {
+
+        data.locations.push({
+            sys_id: locationGR.getUniqueValue(),
+            name: locationGR.getDisplayValue()
+        });
+    }
+
+
+    // =====================================================
+    // 2. LOAD AVAILABLE PARKING SLOTS
+    // =====================================================
+
+    var slotGR = new GlideRecord(
+        'x_1958892_smart_0_parking_slot'
+    );
+
+    slotGR.addQuery('status', 'available');
+    slotGR.orderBy('slot_number');
+    slotGR.query();
+
+    while (slotGR.next()) {
+
+        var slotNumber = '';
+
+        // Use Slot Number field directly
+        if (slotGR.isValidField('slot_number')) {
+            slotNumber = slotGR.getDisplayValue('slot_number');
+        }
+
+        // Fallback if Slot Number is configured as display field
+        if (!slotNumber) {
+            slotNumber = slotGR.getDisplayValue();
+        }
+
+        data.slots.push({
+            sys_id: slotGR.getUniqueValue(),
+
+            number: slotNumber,
+
+            location:
+                slotGR.getValue('parking_location')
+        });
+    }
+
+
+    // =====================================================
+    // 3. LOAD VEHICLES
+    // =====================================================
+
+    var vehicleGR = new GlideRecord(
+        'x_1958892_smart_0_vehicle'
+    );
+
+    // No vehicle_owner filter for now.
+    // You are testing the portal using admin.
+    vehicleGR.query();
+
+    while (vehicleGR.next()) {
+
+        var vehicleNumber = '';
+
+        // Use Vehicle Number field directly
+        if (vehicleGR.isValidField('vehicle_number')) {
+            vehicleNumber =
+                vehicleGR.getDisplayValue('vehicle_number');
+        }
+
+        // Fallback to the record's display field
+        if (!vehicleNumber) {
+            vehicleNumber = vehicleGR.getDisplayValue();
+        }
+
+        data.vehicles.push({
+            sys_id: vehicleGR.getUniqueValue(),
+            number: vehicleNumber
+        });
+    }
+
+
+    // =====================================================
+    // 4. CREATE PARKING BOOKING
+    // =====================================================
+
+    if (input && input.action == 'create_booking') {
+
+        try {
+
+            // Required field validation
+            if (!input.parking_location) {
+                data.error =
+                    'Please select a Parking Location.';
+                return;
+            }
+
+            if (!input.parking_slot) {
+                data.error =
+                    'Please select a Parking Slot.';
+                return;
+            }
+
+            if (!input.start_time) {
+                data.error =
+                    'Please select Start Time.';
+                return;
+            }
+
+            if (!input.end_time) {
+                data.error =
+                    'Please select End Time.';
+                return;
+            }
+
+
+            // =================================================
+            // Check selected slot is still available
+            // =================================================
+
+            var selectedSlot = new GlideRecord(
+                'x_1958892_smart_0_parking_slot'
+            );
+
+            if (!selectedSlot.get(input.parking_slot)) {
+
+                data.error =
+                    'Selected parking slot could not be found.';
+
+                return;
+            }
+
+            if (
+                selectedSlot.getValue('status') !=
+                'available'
+            ) {
+
+                data.error =
+                    'This parking slot is no longer available. Please select another slot.';
+
+                return;
+            }
+
+
+            // =================================================
+            // Create Booking
+            // =================================================
+
+            var booking = new GlideRecord(
+                'x_1958892_smart_0_parking_booking'
+            );
+
+            booking.initialize();
+
+
+            booking.setValue(
+                'parking_location',
+                input.parking_location
+            );
+
+
+            booking.setValue(
+                'parking_slot',
+                input.parking_slot
+            );
+
+
+            if (input.vehicle) {
+
+                booking.setValue(
+                    'vehicle',
+                    input.vehicle
+                );
+            }
+
+
+            booking.setValue(
+                'start_time',
+                input.start_time
+            );
+
+
+            booking.setValue(
+                'end_time',
+                input.end_time
+            );
+
+
+            booking.setValue(
+                'booking_status',
+                'confirmed'
+            );
+
+
+            // Your existing Business Rule can also set this.
+            // Setting it here makes portal bookings explicit.
+            if (booking.isValidField('requested_by')) {
+
+                booking.setValue(
+                    'requested_by',
+                    gs.getUserID()
+                );
+            }
+
+
+            var bookingId = booking.insert();
+
+
+            // =================================================
+            // Successful Booking
+            // =================================================
+
+            if (bookingId) {
+
+                data.bookingCreated = true;
+
+                data.bookingNumber =
+                    booking.getDisplayValue(
+                        'booking_number'
+                    );
+
+            } else {
+
+                data.bookingCreated = false;
+
+                data.error =
+                    'Unable to create parking booking. Please check the booking details.';
+            }
+
+
+        } catch (e) {
+
+            data.bookingCreated = false;
+
+            data.error =
+                'Booking failed: ' +
+                e.message;
+        }
+    }
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-29 06:11:59</sys_created_on>
+        <sys_id>97bafc3653eb0fd06fbf79b0a0490ed8</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Smart Parking Booking Widget</sys_name>
+        <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+        <sys_update_name>sp_widget_97bafc3653eb0fd06fbf79b0a0490ed8</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-29 06:19:43</sys_updated_on>
+        <template><![CDATA[<div class="parking-booking-page">
+
+  <div class="booking-card">
+
+    <h2>Book a Parking Slot</h2>
+    <p>Select your parking details below.</p>
+
+    <div class="form-group">
+      <label>Parking Location</label>
+
+      <select class="form-control"
+              ng-model="c.form.parking_location"
+              ng-change="c.locationChanged()">
+
+        <option value="">-- Select Parking Location --</option>
+
+        <option ng-repeat="location in c.data.locations"
+                value="{{location.sys_id}}">
+          {{location.name}}
+        </option>
+
+      </select>
+    </div>
+
+
+    <div class="form-group">
+      <label>Parking Slot</label>
+
+      <select class="form-control"
+              ng-model="c.form.parking_slot">
+
+        <option value="">-- Select Available Slot --</option>
+
+        <option ng-repeat="slot in c.filteredSlots"
+                value="{{slot.sys_id}}">
+          {{slot.number}}
+        </option>
+
+      </select>
+    </div>
+
+
+    <div class="form-group">
+      <label>Vehicle</label>
+
+      <select class="form-control"
+              ng-model="c.form.vehicle">
+
+        <option value="">-- Select Vehicle --</option>
+
+        <option ng-repeat="vehicle in c.data.vehicles"
+                value="{{vehicle.sys_id}}">
+          {{vehicle.number}}
+        </option>
+
+      </select>
+    </div>
+
+
+    <div class="form-group">
+      <label>Start Time</label>
+
+      <input type="datetime-local"
+             class="form-control"
+             ng-model="c.form.start_time">
+    </div>
+
+
+    <div class="form-group">
+      <label>End Time</label>
+
+      <input type="datetime-local"
+             class="form-control"
+             ng-model="c.form.end_time">
+    </div>
+
+
+    <button class="btn btn-primary"
+            ng-click="c.bookParking()"
+            ng-disabled="c.submitting">
+
+      {{c.submitting ? 'Booking...' : 'Confirm Booking'}}
+
+    </button>
+
+    <a href="?id=smart_parking_home"
+       class="btn btn-default">
+
+      Back
+
+    </a>
+
+
+    <div class="alert alert-success"
+         ng-if="c.successMessage">
+
+      {{c.successMessage}}
+
+    </div>
+
+
+    <div class="alert alert-danger"
+         ng-if="c.errorMessage">
+
+      {{c.errorMessage}}
+
+    </div>
+
+  </div>
+
+</div>]]></template>
+    </sp_widget>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>97bafc3653eb0fd06fbf79b0a0490ed8</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-29 06:11:59</sys_created_on>
+        <sys_id>1fbafc3653eb0fd06fbf79b0a0490edc</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-29 06:11:59</sys_updated_on>
+        <table>sp_widget</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

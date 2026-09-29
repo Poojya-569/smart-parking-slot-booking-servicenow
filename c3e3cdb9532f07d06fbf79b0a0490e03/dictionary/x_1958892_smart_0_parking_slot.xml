@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="5eb3f97d53a347d06fbf79b0a0490e49" label="Parking Slot" max_length="40" name="x_1958892_smart_0_parking_slot" type="collection">
+        <element label="Accessible Slot" max_length="40" name="accessible_slot" type="boolean"/>
+        <element choice="1" default="available" label="Status" max_length="40" name="status" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Occupied" sequence="2" value="occupied"/>
+                <element inactive_on_update="false" label="Available" sequence="0" value="available"/>
+                <element inactive_on_update="false" label="Reserved" sequence="1" value="reserved"/>
+                <element inactive_on_update="false" label="Out of Service" sequence="3" value="out_of_service"/>
+            </choice>
+        </element>
+        <element label="Active" max_length="40" name="active" type="boolean"/>
+        <element display="true" label="Slot Number" max_length="40" name="slot_number" type="string"/>
+        <element label="Slot Type" max_length="40" name="slot_type" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="EV" sequence="2" value="ev"/>
+                <element inactive_on_update="false" label="Accessible" sequence="3" value="accessible"/>
+                <element inactive_on_update="false" label="Bike" sequence="1" value="bike"/>
+                <element inactive_on_update="false" label="Car" sequence="0" value="car"/>
+            </choice>
+        </element>
+        <element label="Floor/Level" max_length="40" name="floor_level" type="string"/>
+        <element label="Parking Location" max_length="32" name="parking_location" reference="x_1958892_smart_0_parking_location" type="reference"/>
+        <element label="EV Charging" max_length="40" name="ev_charging" type="boolean"/>
+        <index name="index">
+            <element name="parking_location"/>
+        </index>
+    </element>
+</database>

@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller=function() {  /* widget controller */  var c = this;};]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.admin-dashboard {
+  padding: 30px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.admin-dashboard h2 {
+  font-weight: 700;
+}
+
+.subtitle {
+  margin-bottom: 30px;
+}
+
+.dashboard-card {
+  background: #ffffff;
+  padding: 25px;
+  margin-bottom: 20px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+.dashboard-card h2 {
+  font-size: 36px;
+  margin-bottom: 0;
+}
+
+.back-home {
+  margin-top: 25px;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>smart_parking_admin_dashboard_widget</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
+        <name>Smart Parking Admin Dashboard Widget</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+
+    // =====================================================
+    // ADMIN AUTHORIZATION
+    // =====================================================
+
+    data.authorized =
+        gs.hasRole('x_1958892_smart_0.parking_admin');
+
+    if (!data.authorized) {
+
+        data.error =
+            'You are not authorized to access the Admin Dashboard.';
+
+        return;
+    }
+
+
+    // =====================================================
+    // INITIAL VALUES
+    // =====================================================
+
+    data.totalSlots = 0;
+    data.availableSlots = 0;
+    data.reservedSlots = 0;
+
+    data.totalBookings = 0;
+    data.confirmedBookings = 0;
+    data.completedBookings = 0;
+    data.cancelledBookings = 0;
+    data.expiredBookings = 0;
+
+
+    // =====================================================
+    // TOTAL PARKING SLOTS
+    // =====================================================
+
+    var totalSlots = new GlideAggregate(
+        'x_1958892_smart_0_parking_slot'
+    );
+
+    totalSlots.addAggregate('COUNT');
+    totalSlots.query();
+
+    if (totalSlots.next()) {
+
+        data.totalSlots =
+            totalSlots.getAggregate('COUNT');
+    }
+
+
+    // =====================================================
+    // AVAILABLE PARKING SLOTS
+    // =====================================================
+
+    var availableSlots = new GlideAggregate(
+        'x_1958892_smart_0_parking_slot'
+    );
+
+    availableSlots.addQuery(
+        'status',
+        'available'
+    );
+
+    availableSlots.addAggregate('COUNT');
+    availableSlots.query();
+
+    if (availableSlots.next()) {
+
+        data.availableSlots =
+            availableSlots.getAggregate('COUNT');
+    }
+
+
+    // =====================================================
+    // RESERVED PARKING SLOTS
+    // =====================================================
+
+    var reservedSlots = new GlideAggregate(
+        'x_1958892_smart_0_parking_slot'
+    );
+
+    reservedSlots.addQuery(
+        'status',
+        'reserved'
+    );
+
+    reservedSlots.addAggregate('COUNT');
+    reservedSlots.query();
+
+    if (reservedSlots.next()) {
+
+        data.reservedSlots =
+            reservedSlots.getAggregate('COUNT');
+    }
+
+
+    // =====================================================
+    // TOTAL BOOKINGS
+    // =====================================================
+
+    var totalBookings = new GlideAggregate(
+        'x_1958892_smart_0_parking_booking'
+    );
+
+    totalBookings.addAggregate('COUNT');
+    totalBookings.query();
+
+    if (totalBookings.next()) {
+
+        data.totalBookings =
+            totalBookings.getAggregate('COUNT');
+    }
+
+
+    // =====================================================
+    // COUNT BOOKINGS BY STATUS
+    // =====================================================
+
+    function countBookings(status) {
+
+        var ga = new GlideAggregate(
+            'x_1958892_smart_0_parking_booking'
+        );
+
+        ga.addQuery(
+            'booking_status',
+            status
+        );
+
+        ga.addAggregate('COUNT');
+        ga.query();
+
+        if (ga.next()) {
+
+            return ga.getAggregate('COUNT');
+        }
+
+        return 0;
+    }
+
+
+    data.confirmedBookings =
+        countBookings('confirmed');
+
+    data.completedBookings =
+        countBookings('completed');
+
+    data.cancelledBookings =
+        countBookings('cancelled');
+
+    data.expiredBookings =
+        countBookings('expired');
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-29 09:38:19</sys_created_on>
+        <sys_id>f1f9617653634fd06fbf79b0a0490e06</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Smart Parking Admin Dashboard Widget</sys_name>
+        <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+        <sys_update_name>sp_widget_f1f9617653634fd06fbf79b0a0490e06</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-29 09:49:37</sys_updated_on>
+        <template><![CDATA[<div class="admin-dashboard">
+
+  <h2>Smart Parking Admin Dashboard</h2>
+
+  <p class="subtitle">
+    Overview of parking slots and bookings.
+  </p>
+  
+  <div class="admin-dashboard">
+
+  <div class="alert alert-danger"
+       ng-if="!data.authorized">
+    {{data.error}}
+  </div>
+
+
+  <div class="row">
+
+    <div class="col-md-4">
+      <div class="dashboard-card">
+        <h4>Total Slots</h4>
+        <h2>{{data.totalSlots}}</h2>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="dashboard-card">
+        <h4>Available Slots</h4>
+        <h2>{{data.availableSlots}}</h2>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="dashboard-card">
+        <h4>Reserved Slots</h4>
+        <h2>{{data.reservedSlots}}</h2>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="row">
+
+    <div class="col-md-4">
+      <div class="dashboard-card">
+        <h4>Total Bookings</h4>
+        <h2>{{data.totalBookings}}</h2>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="dashboard-card">
+        <h4>Confirmed</h4>
+        <h2>{{data.confirmedBookings}}</h2>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="dashboard-card">
+        <h4>Completed</h4>
+        <h2>{{data.completedBookings}}</h2>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="row">
+
+    <div class="col-md-6">
+      <div class="dashboard-card">
+        <h4>Cancelled</h4>
+        <h2>{{data.cancelledBookings}}</h2>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="dashboard-card">
+        <h4>Expired</h4>
+        <h2>{{data.expiredBookings}}</h2>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="back-home">
+    <a href="?id=smart_parking_home"
+       class="btn btn-default">
+      Back to Home
+    </a>
+  </div>
+
+</div>]]></template>
+    </sp_widget>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>f1f9617653634fd06fbf79b0a0490e06</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-29 09:38:19</sys_created_on>
+        <sys_id>75f9617653634fd06fbf79b0a0490e0a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-29 09:38:19</sys_updated_on>
+        <table>sp_widget</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

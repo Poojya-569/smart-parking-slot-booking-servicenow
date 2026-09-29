@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_definition">
+    <sys_ws_definition action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <base_uri>/api/x_1958892_smart_0/parking_booking_verify</base_uri>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_version>No active default version</default_version>
+        <doc_link/>
+        <enforce_acl>6b4a43ca536fc7d06fbf79b0a0490ef5</enforce_acl>
+        <is_versioned>false</is_versioned>
+        <name>Parking Booking Verification API</name>
+        <namespace>x_1958892_smart_0</namespace>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <service_id>parking_booking_verify</service_id>
+        <short_description/>
+        <sys_class_name>sys_ws_definition</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-27 09:04:50</sys_created_on>
+        <sys_id>b39e070653afc7d06fbf79b0a0490ea9</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Parking Booking Verification API</sys_name>
+        <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+        <sys_update_name>sys_ws_definition_b39e070653afc7d06fbf79b0a0490ea9</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-27 09:04:50</sys_updated_on>
+    </sys_ws_definition>
+</record_update>

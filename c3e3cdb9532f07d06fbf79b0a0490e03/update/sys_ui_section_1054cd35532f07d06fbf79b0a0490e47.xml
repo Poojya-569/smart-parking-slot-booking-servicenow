@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_ui_section caption="" section_id="1054cd35532f07d06fbf79b0a0490e47" sys_domain="global" table="x_1958892_smart_0_parking_location" version="3" view="">
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.begin_split</element>
+            <position>0</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 04:53:43</sys_created_on>
+            <sys_id>e70c8df9536f07d06fbf79b0a0490ebe</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_1958892_smart_0_parking_location" sys_domain="global" view="Default view">1054cd35532f07d06fbf79b0a0490e47</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 04:53:43</sys_updated_on>
+            <sys_user/>
+            <type>.begin_split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>opening_time</element>
+            <position>1</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 04:53:43</sys_created_on>
+            <sys_id>670c8df9536f07d06fbf79b0a0490ebf</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_1958892_smart_0_parking_location" sys_domain="global" view="Default view">1054cd35532f07d06fbf79b0a0490e47</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 04:53:43</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>available_slots</element>
+            <position>2</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 04:53:43</sys_created_on>
+            <sys_id>e30c8df9536f07d06fbf79b0a0490ec0</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_1958892_smart_0_parking_location" sys_domain="global" view="Default view">1054cd35532f07d06fbf79b0a0490e47</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 04:53:43</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>closing_time</element>
+            <position>3</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 04:53:43</sys_created_on>
+            <sys_id>630c8df9536f07d06fbf79b0a0490ec1</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_1958892_smart_0_parking_location" sys_domain="global" view="Default view">1054cd35532f07d06fbf79b0a0490e47</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 04:53:43</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>location_code</element>
+            <position>4</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 04:53:43</sys_created_on>
+            <sys_id>ef0c8df9536f07d06fbf79b0a0490ec1</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_1958892_smart_0_parking_location" sys_domain="global" view="Default view">1054cd35532f07d06fbf79b0a0490e47</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 04:53:43</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>description</element>
+            <position>5</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 04:53:43</sys_created_on>
+            <sys_id>6f0c8df9536f07d06fbf79b0a0490ec2</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_1958892_smart_0_parking_location" sys_domain="global" view="Default view">1054cd35532f07d06fbf79b0a0490e47</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 04:53:43</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.split</element>
+            <position>6</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 04:53:43</sys_created_on>
+            <sys_id>eb0c8df9536f07d06fbf79b0a0490ec3</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_1958892_smart_0_parking_location" sys_domain="global" view="Default view">1054cd35532f07d06fbf79b0a0490e47</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 04:53:43</sys_updated_on>
+            <sys_user/>
+            <type>.split</type>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>address</element>
+            <position>7</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 04:53:43</sys_created_on>
+            <sys_id>6b0c8df9536f07d06fbf79b0a0490ec4</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_1958892_smart_0_parking_location" sys_domain="global" view="Default view">1054cd35532f07d06fbf79b0a0490e47</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 04:53:43</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>total_slots</element>
+            <position>8</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 04:53:43</sys_created_on>
+            <sys_id>e70c8df9536f07d06fbf79b0a0490ec5</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_1958892_smart_0_parking_location" sys_domain="global" view="Default view">1054cd35532f07d06fbf79b0a0490e47</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 04:53:43</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>active</element>
+            <position>9</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 04:53:43</sys_created_on>
+            <sys_id>670c8df9536f07d06fbf79b0a0490ec6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_1958892_smart_0_parking_location" sys_domain="global" view="Default view">1054cd35532f07d06fbf79b0a0490e47</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 04:53:43</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>location_name</element>
+            <position>10</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 04:53:43</sys_created_on>
+            <sys_id>e30c8df9536f07d06fbf79b0a0490ec7</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_1958892_smart_0_parking_location" sys_domain="global" view="Default view">1054cd35532f07d06fbf79b0a0490e47</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 04:53:43</sys_updated_on>
+            <sys_user/>
+            <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.end_split</element>
+            <position>11</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 04:53:43</sys_created_on>
+            <sys_id>630c8df9536f07d06fbf79b0a0490ec8</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_1958892_smart_0_parking_location" sys_domain="global" view="Default view">1054cd35532f07d06fbf79b0a0490e47</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 04:53:43</sys_updated_on>
+            <sys_user/>
+            <type>.end_split</type>
+        </sys_ui_element>
+        <sys_ui_section action="INSERT_OR_UPDATE">
+            <caption/>
+            <header>false</header>
+            <name>x_1958892_smart_0_parking_location</name>
+            <roles/>
+            <sys_class_name>sys_ui_section</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 04:19:54</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>1054cd35532f07d06fbf79b0a0490e47</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_1958892_smart_0_parking_location</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+            <sys_update_name>sys_ui_section_1054cd35532f07d06fbf79b0a0490e47</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 04:19:54</sys_updated_on>
+            <sys_user/>
+            <title>true</title>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_section>
+    </sys_ui_section>
+</record_update>

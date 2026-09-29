@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="03acb931532747d06fbf79b0a0490e92" label="Parking Entry Log" max_length="40" name="x_1958892_smart_0_parking_entry_log" type="collection">
+        <element label="Exit Verified By" max_length="32" name="exit_verified_by" reference="sys_user" type="reference"/>
+        <element label="Entry Verified By" max_length="32" name="entry_verified_by" reference="sys_user" type="reference"/>
+        <element label="Vehicle" max_length="32" name="vehicle" reference="x_1958892_smart_0_vehicle" type="reference"/>
+        <element label="Verification Status" max_length="40" name="verification_status" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Pending" sequence="0" value="pending"/>
+                <element inactive_on_update="false" label="Completed" sequence="3" value="completed"/>
+                <element inactive_on_update="false" label="Verified" sequence="1" value="verified"/>
+                <element inactive_on_update="false" label="Rejected" sequence="2" value="rejected"/>
+            </choice>
+        </element>
+        <element label="Parking Slot" max_length="32" name="parking_slot" reference="x_1958892_smart_0_parking_slot" type="reference"/>
+        <element label="Notes" max_length="1000" name="notes" type="string"/>
+        <element label="Exit Time" max_length="40" name="exit_time" type="glide_date_time"/>
+        <element label="Entry Time" max_length="40" name="entry_time" type="glide_date_time"/>
+        <element label="Booking" max_length="32" name="booking" reference="x_1958892_smart_0_parking_booking" type="reference"/>
+        <index name="index">
+            <element name="booking"/>
+        </index>
+        <index name="index2">
+            <element name="entry_verified_by"/>
+        </index>
+        <index name="index3">
+            <element name="exit_verified_by"/>
+        </index>
+        <index name="index4">
+            <element name="parking_slot"/>
+        </index>
+        <index name="index5">
+            <element name="vehicle"/>
+        </index>
+    </element>
+</database>

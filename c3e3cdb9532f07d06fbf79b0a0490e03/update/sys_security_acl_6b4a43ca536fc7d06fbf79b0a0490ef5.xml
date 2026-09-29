@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl">
+    <sys_security_acl action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <admin_overrides>true</admin_overrides>
+        <advanced>false</advanced>
+        <applies_to/>
+        <condition/>
+        <controlled_by_refs/>
+        <decision_type>allow</decision_type>
+        <description/>
+        <local_or_existing>Existing</local_or_existing>
+        <name>Parking Booking Verification API Access</name>
+        <operation display_value="execute">execute</operation>
+        <script/>
+        <security_attribute/>
+        <sys_class_name>sys_security_acl</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-27 08:46:06</sys_created_on>
+        <sys_id>6b4a43ca536fc7d06fbf79b0a0490ef5</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Parking Booking Verification API Access</sys_name>
+        <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+        <sys_update_name>sys_security_acl_6b4a43ca536fc7d06fbf79b0a0490ef5</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-27 08:46:06</sys_updated_on>
+        <type display_value="REST_Endpoint">REST_Endpoint</type>
+    </sys_security_acl>
+</record_update>

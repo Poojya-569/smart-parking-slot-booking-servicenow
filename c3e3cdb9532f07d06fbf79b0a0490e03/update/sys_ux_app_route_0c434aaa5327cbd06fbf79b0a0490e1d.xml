@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ux_app_route">
+    <sys_ux_app_route action="INSERT_OR_UPDATE">
+        <app_config display_value="Smart Parking Portal">25b042665327cbd06fbf79b0a0490e23</app_config>
+        <description/>
+        <extension_point/>
+        <fields/>
+        <icon/>
+        <interoperable>false</interoperable>
+        <name>Smart Parking Portal</name>
+        <optional_parameters/>
+        <order>0</order>
+        <parent_macroponent display_value="Portal App Shell">b66bf1075b31101016fd7c1bf481c7a7</parent_macroponent>
+        <parent_macroponent_composition_element_id/>
+        <route_type>smart-parking-portal</route_type>
+        <screen_type display_value="Smart Parking Portal">08438e6a5327cbd06fbf79b0a0490e4e</screen_type>
+        <sys_class_name>sys_ux_app_route</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-28 16:50:18</sys_created_on>
+        <sys_id>0c434aaa5327cbd06fbf79b0a0490e1d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Smart Parking Portal</sys_name>
+        <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+        <sys_update_name>sys_ux_app_route_0c434aaa5327cbd06fbf79b0a0490e1d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-28 16:50:18</sys_updated_on>
+    </sys_ux_app_route>
+    <sys_translated_text action="delete_multiple" query="documentkey=0c434aaa5327cbd06fbf79b0a0490e1d"/>
+</record_update>

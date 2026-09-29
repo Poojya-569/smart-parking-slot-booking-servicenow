@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_ui_list parent="" relationship="" sys_domain="global" table="x_1958892_smart_0_parking_location" version="2" view="sys_ref_list">
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>sys_id</element>
+            <list_id display_value="x_1958892_smart_0_parking_location" element="NULL" name="x_1958892_smart_0_parking_location" parent="NULL" relationship="NULL" sys_domain="global" view="da4d9140a52103108bb220b7a4d2128a">6bfdc9fd536f07d06fbf79b0a0490e12</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>0</position>
+            <sum>false</sum>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 05:02:11</sys_created_on>
+            <sys_id>6ffd8dfd536f07d06fbf79b0a0490e61</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 05:02:11</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element/>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <name>x_1958892_smart_0_parking_location</name>
+            <parent/>
+            <position/>
+            <relationship/>
+            <sum>false</sum>
+            <sys_class_name>sys_ui_list</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2026-09-26 05:02:10</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>6bfdc9fd536f07d06fbf79b0a0490e12</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_1958892_smart_0_parking_location</sys_name>
+            <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+            <sys_update_name>sys_ui_list_x_1958892_smart_0_parking_location_sys_ref_list</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2026-09-26 05:02:10</sys_updated_on>
+            <sys_user/>
+            <view display_value="Reference List" name="sys_ref_list">da4d9140a52103108bb220b7a4d2128a</view>
+            <view_name/>
+        </sys_ui_list>
+    </sys_ui_list>
+</record_update>

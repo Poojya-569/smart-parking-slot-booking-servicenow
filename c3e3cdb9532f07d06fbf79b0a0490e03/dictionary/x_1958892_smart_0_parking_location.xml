@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="6f440df9532f07d06fbf79b0a0490e3a" label="Parking Location" max_length="40" name="x_1958892_smart_0_parking_location" type="collection">
+        <element label="Closing Time" max_length="40" name="closing_time" type="glide_time"/>
+        <element label="Location Code" max_length="40" name="location_code" type="string"/>
+        <element label="Opening Time" max_length="40" name="opening_time" type="glide_time"/>
+        <element label="Available Slots" max_length="40" name="available_slots" type="integer"/>
+        <element label="Description" max_length="40" name="description" type="string"/>
+        <element label="Address" max_length="40" name="address" type="string"/>
+        <element label="Total Slots" max_length="40" name="total_slots" type="integer"/>
+        <element label="Active" max_length="40" name="active" type="boolean"/>
+        <element display="true" label="Location Name" max_length="40" name="location_name" type="string"/>
+    </element>
+</database>

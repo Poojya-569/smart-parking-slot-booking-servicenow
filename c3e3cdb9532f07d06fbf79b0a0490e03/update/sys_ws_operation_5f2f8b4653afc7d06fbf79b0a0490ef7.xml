@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl/>
+        <http_method>GET</http_method>
+        <name>Verify Parking Booking</name>
+        <operation_script><![CDATA[(function process(request, response) {
+
+    var bookingNumber = request.pathParams.booking_number;
+    var token = request.queryParams.token;
+
+    if (!bookingNumber || !token) {
+        response.setStatus(400);
+
+        return {
+            success: false,
+            message: 'Booking number and verification token are required.'
+        };
+    }
+
+    var booking = new GlideRecord(
+        'x_1958892_smart_0_parking_booking'
+    );
+
+    booking.addQuery('booking_number', bookingNumber);
+    booking.addQuery('verification_token', token);
+    booking.query();
+
+    if (!booking.next()) {
+        response.setStatus(404);
+
+        return {
+            success: false,
+            message: 'Invalid parking booking or verification token.'
+        };
+    }
+
+    return {
+        success: true,
+        message: 'Parking booking verified successfully.',
+        booking_number: booking.getValue('booking_number'),
+        booking_status: booking.getDisplayValue('booking_status'),
+        start_time: booking.getDisplayValue('start_time'),
+        end_time: booking.getDisplayValue('end_time')
+    };
+
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_1958892_smart_0/parking_booking_verify/verify/{booking_number}</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/verify/{booking_number}</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>false</requires_authentication>
+        <requires_snc_internal_role>true</requires_snc_internal_role>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-27 09:05:46</sys_created_on>
+        <sys_id>5f2f8b4653afc7d06fbf79b0a0490ef7</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Verify Parking Booking</sys_name>
+        <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+        <sys_update_name>sys_ws_operation_5f2f8b4653afc7d06fbf79b0a0490ef7</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-27 16:56:28</sys_updated_on>
+        <web_service_definition display_value="Parking Booking Verification API">b39e070653afc7d06fbf79b0a0490ea9</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

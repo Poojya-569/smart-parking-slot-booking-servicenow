@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller = function() {
+
+    var c = this;
+
+    c.cancellationReason = '';
+    c.processing = false;
+
+
+    c.cancelBooking = function() {
+
+        c.data.error = '';
+        c.data.success = '';
+
+        if (!c.cancellationReason ||
+            !c.cancellationReason.trim()) {
+
+            c.data.error =
+                'Please enter Cancellation Reason.';
+
+            return;
+        }
+
+        c.processing = true;
+
+
+        c.server.get({
+
+            action: 'cancel_booking',
+
+            sys_id:
+                c.data.booking.sys_id,
+
+            cancellation_reason:
+                c.cancellationReason
+
+        }).then(function(response) {
+
+            c.processing = false;
+
+            c.data = response.data;
+
+            c.cancellationReason = '';
+
+        });
+
+    };
+
+};]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.booking-details-page {
+  padding: 30px;
+}
+
+.booking-card {
+  background: #ffffff;
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+}
+
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.booking-header h2 {
+  margin-top: 0;
+  font-weight: 700;
+}
+
+.status-label {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: #eeeeee;
+  font-weight: 600;
+}
+
+.qr-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.qr-section img {
+  width: 220px;
+  height: 220px;
+  max-width: 100%;
+}
+
+.cancel-section {
+  margin-top: 25px;
+}
+
+.cancel-section textarea {
+  min-height: 90px;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>smart_parking_booking_details_widget</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
+        <name>Smart Parking Booking Details Widget</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+
+    data.booking = null;
+    data.error = '';
+    data.success = '';
+
+    var bookingId = '';
+
+    if (input && input.sys_id) {
+        bookingId = input.sys_id;
+    } else {
+        bookingId = $sp.getParameter('sys_id');
+    }
+
+
+    // =====================================================
+    // CANCEL BOOKING
+    // =====================================================
+
+    if (input && input.action == 'cancel_booking') {
+
+        if (!input.cancellation_reason) {
+            data.error = 'Cancellation Reason is required.';
+            return;
+        }
+
+        var cancelGR = new GlideRecord(
+            'x_1958892_smart_0_parking_booking'
+        );
+
+        if (!cancelGR.get(input.sys_id)) {
+            data.error = 'Booking not found.';
+            return;
+        }
+
+        // Allow owner or parking admin
+        var isOwner =
+            cancelGR.getValue('requested_by') == gs.getUserID();
+
+        var isAdmin =
+            gs.hasRole('x_1958892_smart_0.parking_admin');
+
+        if (!isOwner && !isAdmin) {
+            data.error =
+                'You are not allowed to cancel this booking.';
+            return;
+        }
+
+        var currentStatus =
+            cancelGR.getValue('booking_status');
+
+        if (currentStatus == 'completed' ||
+            currentStatus == 'expired' ||
+            currentStatus == 'cancelled') {
+
+            data.error =
+                'This booking cannot be cancelled.';
+            return;
+        }
+
+        cancelGR.setValue(
+            'cancellation_reason',
+            input.cancellation_reason
+        );
+
+        cancelGR.setValue(
+            'booking_status',
+            'cancelled'
+        );
+
+        cancelGR.update();
+
+        data.success =
+            'Parking booking cancelled successfully.';
+
+        bookingId = input.sys_id;
+    }
+
+
+    // =====================================================
+    // LOAD BOOKING
+    // =====================================================
+
+    if (!bookingId) {
+        data.error = 'Booking ID is missing.';
+        return;
+    }
+
+    var bookingGR = new GlideRecord(
+        'x_1958892_smart_0_parking_booking'
+    );
+
+    if (!bookingGR.get(bookingId)) {
+        data.error = 'Parking booking not found.';
+        return;
+    }
+
+
+    var owner =
+        bookingGR.getValue('requested_by') == gs.getUserID();
+
+    var parkingAdmin =
+        gs.hasRole('x_1958892_smart_0.parking_admin');
+
+    var parkingSecurity =
+        gs.hasRole('x_1958892_smart_0.parking_security');
+
+    if (!owner && !parkingAdmin && !parkingSecurity) {
+        data.error =
+            'You are not allowed to view this booking.';
+        return;
+    }
+
+
+    data.booking = {
+
+        sys_id:
+            bookingGR.getUniqueValue(),
+
+        booking_number:
+            bookingGR.getDisplayValue('booking_number'),
+
+        parking_location:
+            bookingGR.getDisplayValue('parking_location'),
+
+        parking_slot:
+            bookingGR.getDisplayValue('parking_slot'),
+
+        vehicle:
+            bookingGR.getDisplayValue('vehicle'),
+
+        start_time:
+            bookingGR.getDisplayValue('start_time'),
+
+        end_time:
+            bookingGR.getDisplayValue('end_time'),
+
+        status:
+            bookingGR.getDisplayValue('booking_status'),
+
+        status_value:
+            bookingGR.getValue('booking_status'),
+
+        verification_token:
+            bookingGR.getValue('verification_token'),
+
+        verification_url:
+            bookingGR.getValue('qr_verification_url'),
+
+        check_in_time:
+            bookingGR.getDisplayValue('check_in_time'),
+
+        check_out_time:
+            bookingGR.getDisplayValue('check_out_time'),
+
+        cancellation_reason:
+            bookingGR.getValue('cancellation_reason')
+    };
+
+
+    // =====================================================
+    // FIND QR ATTACHMENT
+    // =====================================================
+
+    var attachmentGR = new GlideRecord('sys_attachment');
+
+    attachmentGR.addQuery(
+        'table_name',
+        bookingGR.getTableName()
+    );
+
+    attachmentGR.addQuery(
+        'table_sys_id',
+        bookingGR.getUniqueValue()
+    );
+
+    attachmentGR.addQuery(
+        'file_name',
+        'STARTSWITH',
+        'parking_qr_'
+    );
+
+    attachmentGR.orderByDesc('sys_created_on');
+    attachmentGR.setLimit(1);
+    attachmentGR.query();
+
+    if (attachmentGR.next()) {
+
+        data.booking.qr_image =
+            '/sys_attachment.do?sys_id=' +
+            attachmentGR.getUniqueValue();
+
+    } else {
+
+        data.booking.qr_image = '';
+    }
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-29 06:38:28</sys_created_on>
+        <sys_id>17c0093a53eb0fd06fbf79b0a0490ec4</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Smart Parking Booking Details Widget</sys_name>
+        <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+        <sys_update_name>sp_widget_17c0093a53eb0fd06fbf79b0a0490ec4</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-29 06:39:07</sys_updated_on>
+        <template><![CDATA[<div class="booking-details-page">
+
+  <div class="alert alert-danger"
+       ng-if="data.error">
+    {{data.error}}
+  </div>
+
+  <div class="alert alert-success"
+       ng-if="data.success">
+    {{data.success}}
+  </div>
+
+
+  <div class="booking-card"
+       ng-if="data.booking">
+
+    <div class="booking-header">
+
+      <div>
+        <h2>Parking Booking Details</h2>
+        <p>{{data.booking.booking_number}}</p>
+      </div>
+
+      <span class="status-label">
+        {{data.booking.status}}
+      </span>
+
+    </div>
+
+
+    <hr>
+
+
+    <div class="row">
+
+      <div class="col-md-6">
+
+        <p>
+          <strong>Parking Location:</strong><br>
+          {{data.booking.parking_location}}
+        </p>
+
+        <p>
+          <strong>Parking Slot:</strong><br>
+          {{data.booking.parking_slot}}
+        </p>
+
+        <p>
+          <strong>Vehicle:</strong><br>
+          {{data.booking.vehicle || 'Not selected'}}
+        </p>
+
+        <p>
+          <strong>Start Time:</strong><br>
+          {{data.booking.start_time}}
+        </p>
+
+        <p>
+          <strong>End Time:</strong><br>
+          {{data.booking.end_time}}
+        </p>
+
+      </div>
+
+
+      <div class="col-md-6">
+
+        <p>
+          <strong>Verification Token:</strong><br>
+          {{data.booking.verification_token}}
+        </p>
+
+        <p ng-if="data.booking.check_in_time">
+          <strong>Check-In Time:</strong><br>
+          {{data.booking.check_in_time}}
+        </p>
+
+        <p ng-if="data.booking.check_out_time">
+          <strong>Check-Out Time:</strong><br>
+          {{data.booking.check_out_time}}
+        </p>
+
+
+        <div class="qr-section"
+             ng-if="data.booking.qr_image">
+
+          <h4>Parking QR Code</h4>
+
+          <img ng-src="{{data.booking.qr_image}}"
+               alt="Parking booking QR code">
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="cancel-section"
+         ng-if="data.booking.status_value == 'confirmed'">
+
+      <hr>
+
+      <h4>Cancel Booking</h4>
+
+      <div class="form-group">
+
+        <label>Cancellation Reason</label>
+
+        <textarea
+          class="form-control"
+          ng-model="c.cancellationReason"
+          placeholder="Enter cancellation reason">
+        </textarea>
+
+      </div>
+
+      <button class="btn btn-danger"
+              ng-click="c.cancelBooking()"
+              ng-disabled="c.processing">
+
+        {{c.processing ? 'Cancelling...' : 'Cancel Booking'}}
+
+      </button>
+
+    </div>
+
+
+    <div class="cancelled-message"
+         ng-if="data.booking.status_value == 'cancelled'">
+
+      <hr>
+
+      <strong>Cancellation Reason:</strong>
+
+      {{data.booking.cancellation_reason}}
+
+    </div>
+
+
+    <hr>
+
+    <a href="?id=smart_parking_my_bookings"
+       class="btn btn-default">
+
+      Back to My Bookings
+
+    </a>
+
+  </div>
+
+</div>]]></template>
+    </sp_widget>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>17c0093a53eb0fd06fbf79b0a0490ec4</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-29 06:38:28</sys_created_on>
+        <sys_id>97c0093a53eb0fd06fbf79b0a0490ec8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-29 06:38:28</sys_updated_on>
+        <table>sp_widget</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

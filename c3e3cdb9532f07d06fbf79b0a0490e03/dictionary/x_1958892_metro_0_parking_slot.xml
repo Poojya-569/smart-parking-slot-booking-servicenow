@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="e50645fd532f07d06fbf79b0a0490e1c" label="Parking Slot" max_length="40" name="x_1958892_metro_0_parking_slot" type="collection">
+        <element choice="1" label="Slot Type" max_length="40" name="x_1958892_smart_0_slot_type" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="EV Bike" sequence="3" value="ev_bike"/>
+                <element inactive_on_update="false" label="Bike" sequence="1" value="bike"/>
+                <element inactive_on_update="false" label="Accessible" sequence="4" value="accessible"/>
+                <element inactive_on_update="false" label="EV Car" sequence="2" value="ev_car"/>
+                <element inactive_on_update="false" label="Car" sequence="0" value="car"/>
+            </choice>
+        </element>
+        <element choice="1" default="available" label="Status" max_length="40" name="x_1958892_smart_0_status" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Out of Service" sequence="3" value="out_of_service"/>
+                <element inactive_on_update="false" label="Reserved" sequence="1" value="reserved"/>
+                <element inactive_on_update="false" label="Available" sequence="0" value="available"/>
+                <element inactive_on_update="false" label="Occupied" sequence="2" value="occupied"/>
+            </choice>
+        </element>
+        <element label="Parking Location" max_length="32" name="x_1958892_smart_0_parking_location" reference="x_1958892_smart_0_parking_location" type="reference"/>
+        <element label="Slot Number" max_length="40" name="x_1958892_smart_0_slot_number" type="string"/>
+        <element label="Accessible Slot" max_length="40" name="x_1958892_smart_0_accessible_slot" type="boolean"/>
+        <element label="EV Charging" max_length="40" name="x_1958892_smart_0_ev_charging" type="boolean"/>
+        <element label="Active" max_length="40" name="x_1958892_smart_0_active" type="boolean"/>
+        <element label="Floor/Level" max_length="40" name="x_1958892_smart_0_floor_level" type="string"/>
+    </element>
+</database>

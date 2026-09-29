@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller=function() {  /* widget controller */  var c = this;};]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.smart-parking-home {
+  padding: 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.hero {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.hero h1 {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.home-buttons {
+  margin-top: 20px;
+}
+
+.home-buttons .btn {
+  margin: 8px;
+  padding: 12px 24px;
+}
+
+.parking-stats {
+  margin-top: 25px;
+}
+
+.stat-card {
+  background: #ffffff;
+  padding: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+}
+
+.stat-card h3 {
+  margin-top: 0;
+}
+
+.stat-card h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.active-booking {
+  background: #ffffff;
+  padding: 25px;
+  margin-top: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+}
+
+.active-booking h2 {
+  margin-top: 0;
+}
+
+.booking-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.booking-status {
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+
+  .smart-parking-home {
+    padding: 15px;
+  }
+
+  .hero {
+    padding: 25px 10px;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  .home-buttons .btn {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .booking-heading {
+    display: block;
+  }
+
+  .booking-heading .btn {
+    margin-top: 10px;
+  }
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>smart_parking_home_widget</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
+        <name>Smart Parking Home Widget</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+
+    data.availableSlots = 0;
+    data.reservedSlots = 0;
+    data.hasBooking = false;
+    data.booking = null;
+
+
+    // =====================================================
+    // ROLE CHECKS
+    // =====================================================
+
+    // Admin Dashboard access
+    data.isAdmin =
+        gs.hasRole('x_1958892_smart_0.parking_admin') ||
+        gs.hasRole('admin');
+
+
+    // Security Verification access
+    // Admin is also allowed to access Security page
+    data.isSecurity =
+        gs.hasRole('x_1958892_smart_0.parking_security') ||
+        data.isAdmin;
+
+
+    // =====================================================
+    // AVAILABLE PARKING SLOTS
+    // =====================================================
+
+    var available = new GlideAggregate(
+        'x_1958892_smart_0_parking_slot'
+    );
+
+    available.addQuery(
+        'status',
+        'available'
+    );
+
+    available.addAggregate('COUNT');
+    available.query();
+
+    if (available.next()) {
+
+        data.availableSlots =
+            parseInt(
+                available.getAggregate('COUNT'),
+                10
+            ) || 0;
+    }
+
+
+    // =====================================================
+    // RESERVED PARKING SLOTS
+    // =====================================================
+
+    var reserved = new GlideAggregate(
+        'x_1958892_smart_0_parking_slot'
+    );
+
+    reserved.addQuery(
+        'status',
+        'reserved'
+    );
+
+    reserved.addAggregate('COUNT');
+    reserved.query();
+
+    if (reserved.next()) {
+
+        data.reservedSlots =
+            parseInt(
+                reserved.getAggregate('COUNT'),
+                10
+            ) || 0;
+    }
+
+
+    // =====================================================
+    // CURRENT USER ACTIVE BOOKING
+    // =====================================================
+
+    var booking = new GlideRecord(
+        'x_1958892_smart_0_parking_booking'
+    );
+
+    booking.addQuery(
+        'requested_by',
+        gs.getUserID()
+    );
+
+    booking.addQuery(
+        'booking_status',
+        'IN',
+        'confirmed,checked_in'
+    );
+
+    booking.orderByDesc(
+        'sys_created_on'
+    );
+
+    booking.setLimit(1);
+
+    booking.query();
+
+
+    if (booking.next()) {
+
+        data.hasBooking = true;
+
+        data.booking = {
+
+            sys_id:
+                booking.getUniqueValue(),
+
+            bookingNumber:
+                booking.getDisplayValue(
+                    'booking_number'
+                ),
+
+            parkingLocation:
+                booking.getDisplayValue(
+                    'parking_location'
+                ),
+
+            parkingSlot:
+                booking.getDisplayValue(
+                    'parking_slot'
+                ),
+
+            startTime:
+                booking.getDisplayValue(
+                    'start_time'
+                ),
+
+            endTime:
+                booking.getDisplayValue(
+                    'end_time'
+                ),
+
+            status:
+                booking.getDisplayValue(
+                    'booking_status'
+                )
+        };
+    }
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-29 06:04:35</sys_created_on>
+        <sys_id>8f09787253eb0fd06fbf79b0a0490e6f</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>Smart Parking Home Widget</sys_name>
+        <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+        <sys_update_name>sp_widget_8f09787253eb0fd06fbf79b0a0490e6f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-29 09:52:18</sys_updated_on>
+        <template><![CDATA[<div class="smart-parking-home">
+
+  <div class="hero">
+
+    <h1>Smart Parking</h1>
+
+    <p>
+      Find, book and manage your parking slot easily.
+    </p>
+
+    <div class="home-buttons">
+
+      <!-- Available to normal parking users -->
+      <a class="btn btn-primary"
+         href="?id=smart_parking_book">
+        Book Parking Slot
+      </a>
+
+      <a class="btn btn-default"
+         href="?id=smart_parking_my_bookings">
+        My Bookings
+      </a>
+
+      <!-- Security and Admin only -->
+      <a class="btn btn-success"
+         ng-if="data.isSecurity"
+         href="?id=smart_parking_security">
+        Security Verification
+      </a>
+
+      <!-- Admin only -->
+      <a class="btn btn-info"
+         ng-if="data.isAdmin"
+         href="?id=smart_parking_admin">
+        Admin Dashboard
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <!-- PARKING STATISTICS -->
+
+  <div class="row parking-stats">
+
+    <div class="col-md-6">
+
+      <div class="stat-card">
+
+        <h3>Available Slots</h3>
+
+        <h1>
+          {{data.availableSlots}}
+        </h1>
+
+      </div>
+
+    </div>
+
+
+    <div class="col-md-6">
+
+      <div class="stat-card">
+
+        <h3>Reserved Slots</h3>
+
+        <h1>
+          {{data.reservedSlots}}
+        </h1>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ACTIVE BOOKING -->
+
+  <div class="active-booking"
+       ng-if="data.hasBooking">
+
+    <div class="booking-heading">
+
+      <h2>My Active Booking</h2>
+
+      <a class="btn btn-info btn-sm"
+         href="?id=smart_parking_booking_details&sys_id={{data.booking.sys_id}}">
+        View Details
+      </a>
+
+    </div>
+
+
+    <div class="row">
+
+      <div class="col-md-6">
+
+        <p>
+          <strong>Booking Number:</strong><br>
+          {{data.booking.bookingNumber}}
+        </p>
+
+        <p>
+          <strong>Parking Location:</strong><br>
+          {{data.booking.parkingLocation}}
+        </p>
+
+        <p>
+          <strong>Parking Slot:</strong><br>
+          {{data.booking.parkingSlot}}
+        </p>
+
+      </div>
+
+
+      <div class="col-md-6">
+
+        <p>
+          <strong>Start Time:</strong><br>
+          {{data.booking.startTime}}
+        </p>
+
+        <p>
+          <strong>End Time:</strong><br>
+          {{data.booking.endTime}}
+        </p>
+
+        <p>
+          <strong>Status:</strong><br>
+
+          <span class="booking-status">
+            {{data.booking.status}}
+          </span>
+
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- NO ACTIVE BOOKING -->
+
+  <div class="active-booking"
+       ng-if="!data.hasBooking">
+
+    <h2>My Active Booking</h2>
+
+    <p>
+      You currently have no active parking booking.
+    </p>
+
+    <a class="btn btn-primary"
+       href="?id=smart_parking_book">
+      Book a Parking Slot
+    </a>
+
+  </div>
+
+</div>]]></template>
+    </sp_widget>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>8f09787253eb0fd06fbf79b0a0490e6f</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-29 06:04:36</sys_created_on>
+        <sys_id>4b09787253eb0fd06fbf79b0a0490e76</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-29 06:04:36</sys_updated_on>
+        <table>sp_widget</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

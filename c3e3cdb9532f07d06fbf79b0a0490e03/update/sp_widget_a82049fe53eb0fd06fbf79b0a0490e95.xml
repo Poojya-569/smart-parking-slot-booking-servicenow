@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller=function() {  /* widget controller */  var c = this;};]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.my-bookings-page {
+  padding: 30px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.page-header h2 {
+  margin: 0;
+  font-weight: 700;
+}
+
+.table {
+  background: #ffffff;
+}
+
+.table th,
+.table td {
+  vertical-align: middle !important;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>smart_parking_my_bookings_widget</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
+        <name>Smart Parking My Bookings Widget</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+
+    data.bookings = [];
+
+    var bookingGR = new GlideRecord(
+        'x_1958892_smart_0_parking_booking'
+    );
+
+    bookingGR.addQuery(
+        'requested_by',
+        gs.getUserID()
+    );
+
+    bookingGR.orderByDesc('sys_created_on');
+    bookingGR.query();
+
+    while (bookingGR.next()) {
+
+        data.bookings.push({
+
+            sys_id:
+                bookingGR.getUniqueValue(),
+
+            booking_number:
+                bookingGR.getDisplayValue(
+                    'booking_number'
+                ),
+
+            parking_location:
+                bookingGR.getDisplayValue(
+                    'parking_location'
+                ),
+
+            parking_slot:
+                bookingGR.getDisplayValue(
+                    'parking_slot'
+                ),
+
+            vehicle:
+                bookingGR.getDisplayValue(
+                    'vehicle'
+                ),
+
+            start_time:
+                bookingGR.getDisplayValue(
+                    'start_time'
+                ),
+
+            end_time:
+                bookingGR.getDisplayValue(
+                    'end_time'
+                ),
+
+            status:
+                bookingGR.getDisplayValue(
+                    'booking_status'
+                )
+        });
+    }
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-29 06:35:34</sys_created_on>
+        <sys_id>a82049fe53eb0fd06fbf79b0a0490e95</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>Smart Parking My Bookings Widget</sys_name>
+        <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+        <sys_update_name>sp_widget_a82049fe53eb0fd06fbf79b0a0490e95</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-29 09:36:01</sys_updated_on>
+        <template><![CDATA[<div class="my-bookings-page">
+
+  <div class="page-header">
+    <h2>My Parking Bookings</h2>
+    
+
+    <a href="?id=smart_parking_book"
+       class="btn btn-primary">
+      Book New Slot
+    </a>
+  </div>
+
+
+  <div ng-if="data.bookings.length == 0"
+       class="alert alert-info">
+
+    You currently have no parking bookings.
+
+  </div>
+
+
+  <div class="table-responsive"
+       ng-if="data.bookings.length > 0">
+
+    <table class="table table-striped table-bordered">
+
+      <thead>
+
+        <tr>
+          <th>Booking Number</th>
+          <th>Location</th>
+          <th>Slot</th>
+          <th>Vehicle</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr ng-repeat="booking in data.bookings">
+
+          <td>
+            {{booking.booking_number}}
+          </td>
+
+          <td>
+            {{booking.parking_location}}
+          </td>
+
+          <td>
+            {{booking.parking_slot}}
+          </td>
+
+          <td>
+            {{booking.vehicle}}
+          </td>
+
+          <td>
+            {{booking.start_time}}
+          </td>
+
+          <td>
+            {{booking.end_time}}
+          </td>
+
+          <td>
+            {{booking.status}}
+          </td>
+
+          <td>
+
+            <a class="btn btn-sm btn-info"
+               href="?id=smart_parking_booking_details&sys_id={{booking.sys_id}}">
+
+              View
+
+            </a>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+    
+    <div style="margin-top: 25px;">
+  <a href="?id=smart_parking_home"
+     class="btn btn-default">
+    Back to Home
+  </a>
+</div>
+
+  </div>
+
+</div>]]></template>
+    </sp_widget>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>a82049fe53eb0fd06fbf79b0a0490e95</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-29 06:35:34</sys_created_on>
+        <sys_id>bc2089fe53eb0fd06fbf79b0a0490e47</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-29 06:35:34</sys_updated_on>
+        <table>sp_widget</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

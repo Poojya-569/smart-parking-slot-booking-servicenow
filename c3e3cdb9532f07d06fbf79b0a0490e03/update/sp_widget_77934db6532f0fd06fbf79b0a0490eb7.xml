@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller = function() {
+
+    var c = this;
+
+    c.form = {};
+    c.processing = false;
+
+
+    c.verifyBooking = function() {
+
+        c.data.error = '';
+        c.data.success = '';
+
+        if (!c.form.booking_number ||
+            !c.form.token) {
+
+            c.data.error =
+                'Please enter Booking Number and Verification Token.';
+
+            return;
+        }
+
+        c.processing = true;
+
+        c.server.get({
+
+            action: 'verify',
+
+            booking_number:
+                c.form.booking_number,
+
+            token:
+                c.form.token
+
+        }).then(function(response) {
+
+            c.processing = false;
+            c.data = response.data;
+
+        });
+    };
+
+
+    c.checkIn = function() {
+
+        c.processing = true;
+
+        c.server.get({
+
+            action: 'check_in',
+
+            sys_id:
+                c.data.booking.sys_id
+
+        }).then(function(response) {
+
+            c.processing = false;
+            c.data = response.data;
+
+        });
+    };
+
+
+    c.checkOut = function() {
+
+        c.processing = true;
+
+        c.server.get({
+
+            action: 'check_out',
+
+            sys_id:
+                c.data.booking.sys_id
+
+        }).then(function(response) {
+
+            c.processing = false;
+            c.data = response.data;
+
+        });
+    };
+
+
+    c.verifyAnother = function() {
+
+        c.data.booking = null;
+        c.data.error = '';
+        c.data.success = '';
+
+        c.form = {};
+    };
+
+};]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.security-page {
+  padding: 30px;
+}
+
+.security-card {
+  background: #ffffff;
+  max-width: 750px;
+  margin: 20px auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+}
+
+.security-card h2 {
+  margin-top: 0;
+  font-weight: 700;
+}
+
+.security-card .form-group {
+  margin-top: 20px;
+}
+
+.security-card .btn {
+  margin-top: 15px;
+  margin-right: 8px;
+}
+
+.verified-booking {
+  margin-top: 20px;
+}
+
+.status {
+  font-weight: 700;
+}
+
+.completed {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f4f4f4;
+  border-radius: 6px;
+  font-weight: 600;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>smart_parking_security_widget</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
+        <name>Smart Parking Security Widget</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+
+    data.booking = null;
+    data.error = '';
+    data.success = '';
+
+    // Allow Parking Security, Parking Admin or administrator
+    data.authorized =
+        gs.hasRole('x_1958892_smart_0.parking_security') ||
+        gs.hasRole('x_1958892_smart_0.parking_admin') ||
+        gs.hasRole('admin');
+
+    if (!data.authorized) {
+        data.error = 'You are not authorized to access parking verification.';
+        return;
+    }
+
+
+    // Helper function
+    function setBookingData(gr) {
+
+        data.booking = {
+
+            sys_id:
+                gr.getUniqueValue(),
+
+            booking_number:
+                gr.getDisplayValue('booking_number'),
+
+            parking_location:
+                gr.getDisplayValue('parking_location'),
+
+            parking_slot:
+                gr.getDisplayValue('parking_slot'),
+
+            vehicle:
+                gr.getDisplayValue('vehicle'),
+
+            requested_by:
+                gr.getDisplayValue('requested_by'),
+
+            start_time:
+                gr.getDisplayValue('start_time'),
+
+            end_time:
+                gr.getDisplayValue('end_time'),
+
+            status:
+                gr.getDisplayValue('booking_status'),
+
+            status_value:
+                gr.getValue('booking_status'),
+
+            check_in_time:
+                gr.getDisplayValue('check_in_time'),
+
+            check_out_time:
+                gr.getDisplayValue('check_out_time')
+        };
+    }
+
+
+    if (!input || !input.action) {
+        return;
+    }
+
+
+    // =====================================================
+    // VERIFY BOOKING
+    // =====================================================
+
+    if (input.action == 'verify') {
+
+        if (!input.booking_number || !input.token) {
+
+            data.error =
+                'Booking Number and Verification Token are required.';
+
+            return;
+        }
+
+        var verifyGR = new GlideRecord(
+            'x_1958892_smart_0_parking_booking'
+        );
+
+        verifyGR.addQuery(
+            'booking_number',
+            input.booking_number
+        );
+
+        verifyGR.addQuery(
+            'verification_token',
+            input.token
+        );
+
+        verifyGR.query();
+
+        if (!verifyGR.next()) {
+
+            data.error =
+                'Invalid Booking Number or Verification Token.';
+
+            return;
+        }
+
+        setBookingData(verifyGR);
+
+        data.success =
+            'Parking booking verified successfully.';
+
+        return;
+    }
+
+
+    // =====================================================
+    // CHECK IN
+    // =====================================================
+
+    if (input.action == 'check_in') {
+
+        var checkInGR = new GlideRecord(
+            'x_1958892_smart_0_parking_booking'
+        );
+
+        if (!checkInGR.get(input.sys_id)) {
+
+            data.error = 'Booking not found.';
+            return;
+        }
+
+        if (
+            checkInGR.getValue('booking_status') !=
+            'confirmed'
+        ) {
+
+            data.error =
+                'Only a confirmed booking can be checked in.';
+
+            setBookingData(checkInGR);
+            return;
+        }
+
+        checkInGR.setValue(
+            'booking_status',
+            'checked_in'
+        );
+
+        checkInGR.update();
+
+        // Reload after Business Rules
+        checkInGR.get(input.sys_id);
+
+        setBookingData(checkInGR);
+
+        data.success =
+            'Vehicle checked in successfully.';
+
+        return;
+    }
+
+
+    // =====================================================
+    // CHECK OUT
+    // =====================================================
+
+    if (input.action == 'check_out') {
+
+        var checkOutGR = new GlideRecord(
+            'x_1958892_smart_0_parking_booking'
+        );
+
+        if (!checkOutGR.get(input.sys_id)) {
+
+            data.error = 'Booking not found.';
+            return;
+        }
+
+        if (
+            checkOutGR.getValue('booking_status') !=
+            'checked_in'
+        ) {
+
+            data.error =
+                'Only a checked-in booking can be checked out.';
+
+            setBookingData(checkOutGR);
+            return;
+        }
+
+        checkOutGR.setValue(
+            'booking_status',
+            'completed'
+        );
+
+        checkOutGR.update();
+
+        // Reload after Business Rules
+        checkOutGR.get(input.sys_id);
+
+        setBookingData(checkOutGR);
+
+        data.success =
+            'Vehicle checked out successfully.';
+
+        return;
+    }
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-29 06:50:48</sys_created_on>
+        <sys_id>77934db6532f0fd06fbf79b0a0490eb7</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Smart Parking Security Widget</sys_name>
+        <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+        <sys_update_name>sp_widget_77934db6532f0fd06fbf79b0a0490eb7</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-29 07:39:19</sys_updated_on>
+        <template><![CDATA[<div class="security-page">
+
+  <div class="security-card">
+
+    <h2>Parking Security Verification</h2>
+
+    <p>
+      Verify the customer's parking booking before allowing entry.
+    </p>
+
+
+    <div class="alert alert-danger"
+         ng-if="data.error">
+
+      {{data.error}}
+
+    </div>
+
+
+    <div class="alert alert-success"
+         ng-if="data.success">
+
+      {{data.success}}
+
+    </div>
+
+
+    <!-- Verification Form -->
+
+    <div ng-if="!data.booking">
+
+      <div class="form-group">
+
+        <label>Booking Number</label>
+
+        <input type="text"
+               class="form-control"
+               ng-model="c.form.booking_number"
+               placeholder="Example: PB-791431">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Verification Token</label>
+
+        <input type="text"
+               class="form-control"
+               ng-model="c.form.token"
+               placeholder="Enter verification token">
+
+      </div>
+
+
+      <button class="btn btn-primary"
+              ng-click="c.verifyBooking()"
+              ng-disabled="c.processing">
+
+        {{c.processing ? 'Verifying...' : 'Verify Booking'}}
+
+      </button>
+
+    </div>
+
+
+    <!-- Booking Details -->
+
+    <div ng-if="data.booking"
+         class="verified-booking">
+
+      <hr>
+
+      <h3>Booking Details</h3>
+
+      <p>
+        <strong>Booking Number:</strong>
+        {{data.booking.booking_number}}
+      </p>
+
+      <p>
+        <strong>Requested By:</strong>
+        {{data.booking.requested_by}}
+      </p>
+
+      <p>
+        <strong>Parking Location:</strong>
+        {{data.booking.parking_location}}
+      </p>
+
+      <p>
+        <strong>Parking Slot:</strong>
+        {{data.booking.parking_slot}}
+      </p>
+
+      <p>
+        <strong>Vehicle:</strong>
+        {{data.booking.vehicle || 'Not provided'}}
+      </p>
+
+      <p>
+        <strong>Start Time:</strong>
+        {{data.booking.start_time}}
+      </p>
+
+      <p>
+        <strong>End Time:</strong>
+        {{data.booking.end_time}}
+      </p>
+
+      <p>
+        <strong>Status:</strong>
+        <span class="status">
+          {{data.booking.status}}
+        </span>
+      </p>
+
+
+      <p ng-if="data.booking.check_in_time">
+        <strong>Check-In Time:</strong>
+        {{data.booking.check_in_time}}
+      </p>
+
+      <p ng-if="data.booking.check_out_time">
+        <strong>Check-Out Time:</strong>
+        {{data.booking.check_out_time}}
+      </p>
+
+
+      <!-- Check In -->
+
+      <button class="btn btn-success"
+              ng-if="data.booking.status_value == 'confirmed'"
+              ng-click="c.checkIn()"
+              ng-disabled="c.processing">
+
+        Check In Vehicle
+
+      </button>
+
+
+      <!-- Check Out -->
+
+      <button class="btn btn-warning"
+              ng-if="data.booking.status_value == 'checked_in'"
+              ng-click="c.checkOut()"
+              ng-disabled="c.processing">
+
+        Check Out Vehicle
+
+      </button>
+
+
+      <div class="completed"
+           ng-if="data.booking.status_value == 'completed'">
+
+        Parking visit completed successfully.
+
+      </div>
+
+
+      <button class="btn btn-default"
+              ng-click="c.verifyAnother()">
+
+        Verify Another Booking
+
+      </button>
+      
+      <a href="?id=smart_parking_home"
+   class="btn btn-default">
+
+  Back to Home
+
+</a>
+
+    </div>
+
+  </div>
+
+</div>]]></template>
+    </sp_widget>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>77934db6532f0fd06fbf79b0a0490eb7</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-29 06:50:48</sys_created_on>
+        <sys_id>f7934db6532f0fd06fbf79b0a0490ebb</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-29 06:50:48</sys_updated_on>
+        <table>sp_widget</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

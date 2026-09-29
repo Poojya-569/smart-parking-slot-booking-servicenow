@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_user_role">
+    <sys_user_role action="INSERT_OR_UPDATE">
+        <assignable_by/>
+        <can_delegate>true</can_delegate>
+        <description>Allows administrators to manage parking locations, slots, bookings and reports.</description>
+        <elevated_privilege>false</elevated_privilege>
+        <federated_id>Dh+OCUH8g+df5/lPngCu0phYIx9irQWmSZjpHR19MKk=</federated_id>
+        <grantable>true</grantable>
+        <includes_roles/>
+        <name>x_1958892_smart_0.parking_admin</name>
+        <scoped_admin>false</scoped_admin>
+        <suffix>parking_admin</suffix>
+        <sys_class_name>sys_user_role</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-28 14:51:40</sys_created_on>
+        <sys_id>3f0821625363cbd06fbf79b0a0490e09</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_1958892_smart_0.parking_admin</sys_name>
+        <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+        <sys_update_name>sys_user_role_3f0821625363cbd06fbf79b0a0490e09</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-28 14:51:40</sys_updated_on>
+    </sys_user_role>
+</record_update>

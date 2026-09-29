@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>false</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_1958892_smart_0_parking_booking</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Create and Update Parking Entry Log</name>
+        <order>100</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous) {
+
+    var newStatus = current.getValue('booking_status');
+    var oldStatus = previous.getValue('booking_status');
+
+    // ========================================
+    // CHECK-IN
+    // ========================================
+    if (newStatus == 'checked_in' && oldStatus != 'checked_in') {
+
+        var log = new GlideRecord(
+            'x_1958892_smart_0_parking_entry_log'
+        );
+
+        log.initialize();
+
+        log.setValue(
+            'booking',
+            current.getUniqueValue()
+        );
+
+        log.setValue(
+            'parking_slot',
+            current.getValue('parking_slot')
+        );
+
+        // Record actual entry time
+        var entryTime = new GlideDateTime();
+
+        log.setValue(
+            'entry_time',
+            entryTime
+        );
+
+        log.setValue(
+            'entry_verified_by',
+            gs.getUserID()
+        );
+
+        if (!gs.nil(current.getValue('vehicle'))) {
+            log.setValue(
+                'vehicle',
+                current.getValue('vehicle')
+            );
+        }
+
+        log.setValue(
+            'verification_status',
+            'verified'
+        );
+
+        log.insert();
+    }
+
+
+    // ========================================
+    // CHECK-OUT
+    // ========================================
+    if (newStatus == 'completed' && oldStatus != 'completed') {
+
+        var existingLog = new GlideRecord(
+            'x_1958892_smart_0_parking_entry_log'
+        );
+
+        existingLog.addQuery(
+            'booking',
+            current.getUniqueValue()
+        );
+
+        existingLog.orderByDesc('sys_created_on');
+        existingLog.setLimit(1);
+        existingLog.query();
+
+        if (existingLog.next()) {
+
+            var exitTime = new GlideDateTime();
+
+            existingLog.setValue(
+                'exit_time',
+                exitTime
+            );
+
+            existingLog.setValue(
+                'exit_verified_by',
+                gs.getUserID()
+            );
+
+            existingLog.setValue(
+                'verification_status',
+                'completed'
+            );
+
+            existingLog.update();
+        }
+    }
+
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-26 17:05:26</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>24627f7d53a387d06fbf79b0a0490e9a</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Create and Update Parking Entry Log</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+        <sys_update_name>sys_script_24627f7d53a387d06fbf79b0a0490e9a</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-26 17:47:11</sys_updated_on>
+        <template/>
+        <when>after</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=24627f7d53a387d06fbf79b0a0490e9a"/>
+</record_update>

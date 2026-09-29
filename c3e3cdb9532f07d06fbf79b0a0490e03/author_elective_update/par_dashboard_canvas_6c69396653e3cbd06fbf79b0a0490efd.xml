@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="par_dashboard_canvas">
+    <par_dashboard_canvas action="DELETE">
+        <dashboard display_value="Smart Parking Dashboard">6469356653e3cbd06fbf79b0a0490edb</dashboard>
+        <dashboard_tab display_value="New Tab 3">ac69396653e3cbd06fbf79b0a0490ef7</dashboard_tab>
+        <layout>[]</layout>
+        <sys_class_name>par_dashboard_canvas</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-28 16:07:12</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>6c69396653e3cbd06fbf79b0a0490efd</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_overrides/>
+        <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+        <sys_update_name>par_dashboard_canvas_6c69396653e3cbd06fbf79b0a0490efd</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-28 16:07:12</sys_updated_on>
+    </par_dashboard_canvas>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</application>
+        <file_path/>
+        <instance_id>52a4f1f61b060a1019254089bd4bcb74</instance_id>
+        <instance_name>dev268719</instance_name>
+        <name>par_dashboard_canvas_6c69396653e3cbd06fbf79b0a0490efd</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="par_dashboard_canvas"><par_dashboard_canvas action="INSERT_OR_UPDATE"><dashboard display_value="Smart Parking Dashboard">6469356653e3cbd06fbf79b0a0490edb</dashboard><dashboard_tab display_value="New Tab 3">ac69396653e3cbd06fbf79b0a0490ef7</dashboard_tab><layout>[]</layout><sys_class_name>par_dashboard_canvas</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2026-09-28 16:07:12</sys_created_on><sys_domain>global</sys_domain><sys_domain_path>/</sys_domain_path><sys_id>6c69396653e3cbd06fbf79b0a0490efd</sys_id><sys_mod_count>0</sys_mod_count><sys_name/><sys_overrides/><sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package><sys_policy/><sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope><sys_update_name>par_dashboard_canvas_6c69396653e3cbd06fbf79b0a0490efd</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2026-09-28 16:07:12</sys_updated_on></par_dashboard_canvas></record_update>]]></payload>
+        <payload_hash>-1357661536</payload_hash>
+        <record_name/>
+        <reverted_from/>
+        <source>0be3cdb9532f07d06fbf79b0a0490e0a</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-28 16:07:12</sys_created_on>
+        <sys_id>2c69796653e3cbd06fbf79b0a0490e0d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1a0e8c532c70000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-28 16:07:12</sys_updated_on>
+        <type>PAR Dashboard Page Canvas</type>
+        <update_guid>e869796617e3cbd0bd301b59ca38810c</update_guid>
+        <update_guid_history>e869796617e3cbd0bd301b59ca38810c:-1357661536</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="">e96a7de653e3cbd06fbf79b0a0490e01</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2026-09-28 16:11:38</sys_created_on>
+        <sys_db_object display_value="" name="par_dashboard_canvas">par_dashboard_canvas</sys_db_object>
+        <sys_id>4cafb3dacf8949119049f1cd87797d29</sys_id>
+        <sys_metadata>6c69396653e3cbd06fbf79b0a0490efd</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Smart Parking Slot Booking" source="x_1958892_smart_0">c3e3cdb9532f07d06fbf79b0a0490e03</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Smart Parking Slot Booking">c3e3cdb9532f07d06fbf79b0a0490e03</sys_scope>
+        <sys_scope_delete display_value="">168fa36fee2b49dc820e64f623330290</sys_scope_delete>
+        <sys_update_name>par_dashboard_canvas_6c69396653e3cbd06fbf79b0a0490efd</sys_update_name>
+        <sys_update_version display_value="par_dashboard_canvas_6c69396653e3cbd06fbf79b0a0490efd">2c69796653e3cbd06fbf79b0a0490e0d</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2026-09-28 16:11:38</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

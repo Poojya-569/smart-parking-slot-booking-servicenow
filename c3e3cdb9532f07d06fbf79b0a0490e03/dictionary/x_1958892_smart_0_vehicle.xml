@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="d1083db553e347d06fbf79b0a0490e19" label="Vehicle" max_length="40" name="x_1958892_smart_0_vehicle" type="collection">
+        <element choice="1" label="Vehicle Type" max_length="40" name="vehicle_type" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Car" sequence="0" value="car"/>
+                <element inactive_on_update="false" label="EV Bike" sequence="3" value="ev_bike"/>
+                <element inactive_on_update="false" label="Bike" sequence="1" value="bike"/>
+                <element inactive_on_update="false" label="EV Car" sequence="2" value="ev_car"/>
+            </choice>
+        </element>
+        <element label="Active" max_length="40" name="active" type="boolean"/>
+        <element display="true" label="Vehicle Number" max_length="40" name="vehicle_number" type="string"/>
+        <element label="Vehicle Model" max_length="40" name="vehicle_model" type="string"/>
+        <element label="Vehicle Color" max_length="40" name="vehicle_color" type="string"/>
+        <element label="Vehicle Owner" max_length="32" name="vehicle_owner" reference="sys_user" type="reference"/>
+        <index name="index">
+            <element name="vehicle_owner"/>
+        </index>
+    </element>
+</database>
